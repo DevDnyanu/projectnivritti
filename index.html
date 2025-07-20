@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image" href="Images/logo.png.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Nivritti - Breaking The Chain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="src/style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#e53e3e',
+                        'primary-dark': '#c53030',
+                        'primary-light': '#feb2b2',
+                        secondary: '#2d3748',
+                        accent: '#ed8936',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'shimmer': 'shimmer 2s ease-in-out infinite',
+                        'particle-float': 'particle-float 6s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    
+</head>
+<body class="font-poppins bg-gray-50 overflow-x-hidden">
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar fixed top-0 left-0 right-0 z-50 py-4 bg-white/95 backdrop-blur-sm border-b border-gray-200 transition-all duration-300">
+            <div class="max-w-6xl mx-auto px-8 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="logo-container">
+                        <img src="Images/logo.png.jpg" alt="Project Nivritti Logo" class="logo-img">
+                        <div class="flex flex-col gap-1">
+                            <div class="flex items-center gap-1 font-black text-xl">
+                                <span class="text-gray-800">PROJECT</span>
+                                <span class="text-primary">NIVRITTI</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Breaking The Chain</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="nav-link text-primary font-medium text-sm transition-colors relative py-2">Home</a>
+                    <a href="about.html" class="nav-link text-gray-600 hover:text-primary font-medium text-sm transition-colors relative py-2">About</a>
+                    <!-- <a href="#contact" class="nav-link text-gray-600 hover:text-primary font-medium text-sm transition-colors relative py-2">Contact</a> -->
+                </div>
+                
+                <div class="hamburger md:hidden flex flex-col gap-1 cursor-pointer p-2" onclick="toggleMobileMenu()">
+                    <span class="w-6 h-0.5 bg-gray-700 rounded transition-all duration-300"></span>
+                    <span class="w-6 h-0.5 bg-gray-700 rounded transition-all duration-300"></span>
+                    <span class="w-6 h-0.5 bg-gray-700 rounded transition-all duration-300"></span>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu md:hidden fixed top-full left-0 right-0 bg-white flex-col p-8 shadow-2xl transform -translate-y-full opacity-0 invisible transition-all duration-300">
+                <a href="index.html" class="block py-3 text-primary font-medium" onclick="toggleMobileMenu()">Home</a>
+                <a href="about.html" class="block py-3 text-gray-600 hover:text-primary font-medium" onclick="toggleMobileMenu()">About</a>
+                <!-- <a href="#contact" class="block py-3 text-gray-600 hover:text-primary font-medium" onclick="toggleMobileMenu()">Contact</a> -->
+            </div>
+        </nav>
+
+        
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+            <!-- Floating Particles -->
+            <div class="floating-particles">
+                <div class="particle particle-1" style="top: 20%; left: 10%; width: 8px; height: 8px; background: #e53e3e; animation-delay: 0s;"></div>
+                <div class="particle particle-2" style="top: 40%; right: 20%; width: 4px; height: 4px; background: #ffffff; animation-delay: 2s;"></div>
+                <div class="particle particle-3" style="bottom: 30%; left: 25%; width: 6px; height: 6px; background: #feb2b2; animation-delay: 4s;"></div>
+            </div>
+            
+            <div class="relative z-10 max-w-6xl mx-auto px-8 w-full pt-20">
+                <div class="max-w-2xl">
+                    
+                    
+                    <h1 class="text-5xl md:text-7xl font-black text-white leading-tight mb-8">
+                        Breaking the chain of
+                        <span class="block gradient-text">Substance Abuse</span>
+                        in India
+                    </h1>
+                    
+                    <p class="text-xl text-white/90 mb-12 leading-relaxed">
+                        33% of teenagers have had at least one alcoholic beverage at the age of 15. 
+                        60% of 18-year-olds have had at least one drink three years before the legal age of 21.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="about.html" class="btn-hover flex items-center justify-center gap-2 px-8 py-4 bg-white text-primary font-semibold rounded-xl shadow-lg hover:bg-gray-50 transition-all duration-300">
+                            <i class="fas fa-play"></i>
+                            Learn More
+                        </a>
+                        <a href="#contact" class="btn-hover flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
+                            <i class="fas fa-calendar"></i>
+                            Join Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="py-20 bg-gray-900 relative overflow-hidden">
+            <div class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image: url('Images/home.png.jpg')"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-8">
+                <div class="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+                    
+                    <!-- Text Block -->
+                    <div class="space-y-8 lg:space-y-10">
+                        <!-- <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 border border-primary/30 rounded-full text-red-400 text-sm font-medium backdrop-blur-sm">
+                            <i class="fas fa-heart"></i>
+                            Youth-Led Initiative
+                        </div> -->
+                        
+                        <div class="space-y-6">
+                            <h2 class="text-6xl lg:text-8xl font-black text-white leading-none tracking-tight">
+                                <span class="block">PROJECT</span>
+                                <span class="block text-primary relative">
+                                    NIVRITTI
+                                    <div class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-red-600 rounded-full"></div>
+                                </span>
+                            </h2>
+                            
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-0.5 bg-primary rounded-full"></div>
+                                <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                                    <div class="w-2 h-2 bg-primary rounded-full"></div>
+                                </div>
+                                <div class="w-12 h-0.5 bg-primary rounded-full"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <p class="text-xl lg:text-2xl text-gray-300 leading-relaxed font-light">
+                                A <span class="text-white font-semibold">youth-led initiative</span> dedicated to breaking the cycle of substance abuse through 
+                                <span class="text-red-400 font-semibold"> awareness</span>, 
+                                <span class="text-red-400 font-semibold"> empathy</span>, and 
+                                <span class="text-red-400 font-semibold"> education</span>.
+                            </p>
+                            
+                            <p class="text-lg text-gray-400 leading-relaxed max-w-2xl">
+                                Our mission is to empower individuals to choose <span class="text-white font-medium">clarity over chaos</span> and <span class="text-white font-medium">purpose over addiction</span>. 
+                                With the strength of our volunteers and the support of our community, we're building a path toward lasting freedom — one choice at a time.
+                            </p>
+                        </div>
+                        
+                        <!-- Call to Action -->
+                        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                            <a href="about.html" class="btn-hover px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-2xl transition-all duration-300">
+                                Get Started
+                            </a>
+                            <a href="#team" class="btn-hover px-8 py-4 border-2 border-white/20 hover:border-white/40 text-white font-semibold rounded-xl backdrop-blur-sm hover:bg-white/5 transition-all duration-300">
+                                Learn More
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="space-y-8">
+                        <!-- Stats Header -->
+                        <div class="text-center lg:text-left">
+                            <h3 class="text-2xl font-bold text-white mb-2">Our Impact</h3>
+                            <p class="text-gray-400">Making a difference, one step at a time</p>
+                        </div>
+                        
+                        <!-- Main Featured Stat - 400+ Students -->
+                        <div class="relative">
+                            <div class="bg-gradient-to-r from-red-600 to-red-700 rounded-3xl p-8 shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500">
+                                <div class="absolute top-6 right-6 opacity-10">
+                                    <i class="fas fa-users text-white text-6xl"></i>
+                                </div>
+                                
+                                <div class="flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <div class="text-8xl font-black text-white mb-4 leading-none">
+                                            400+
+                                        </div>
+                                        <div class="text-white/90 font-bold text-xl leading-relaxed">
+                                            Students educated about the harms of
+                                            <span class="block text-white font-black text-2xl mt-2">substance abuse</span>
+                                        </div>
+                                    </div>
+                                    <div class="hidden md:block">
+                                        <div class="w-32 h-32 bg-white/10 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-users text-white text-6xl"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Stats -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Stat Card 2 -->
+                            <div class="bg-gradient-to-r from-red-600 to-red-700 rounded-3xl p-6 shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500">
+                                <div class="absolute top-4 right-4 opacity-10">
+                                    <i class="fas fa-book-open text-white text-3xl"></i>
+                                </div>
+                                
+                                <div class="relative z-10 text-center">
+                                    <div class="text-5xl font-black text-white mb-3 leading-none">
+                                        2
+                                    </div>
+                                    <div class="text-white/90 font-bold text-base leading-relaxed">
+                                        <span class="text-white font-black">Sessions</span> conducted
+                                        <br />across schools and
+                                        <br />online platforms
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stat Card 3 -->
+                            <div class="bg-gradient-to-r from-red-600 to-red-700 rounded-3xl p-6 shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500">
+                                <div class="absolute top-4 right-4 opacity-10">
+                                    <i class="fas fa-school text-white text-3xl"></i>
+                                </div>
+                                
+                                <div class="relative z-10 text-center">
+                                    <div class="text-5xl font-black text-white mb-3 leading-none">
+                                        1
+                                    </div>
+                                    <div class="text-white/90 font-bold text-base leading-relaxed">
+                                        <span class="text-white font-black">Partnered</span>
+                                        <br />school
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Indicator -->
+                        <div class="text-center pt-6">
+                            <p class="text-gray-400 text-sm mb-3">Growing every day</p>
+                            <div class="flex justify-center gap-2">
+                                <div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                                <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                                <div class="w-2 h-2 bg-red-300 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meet the Team Section -->
+        <section id="team" class="py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-8">
+                <div class="text-center mb-16">
+                    <div class="inline-block px-4 py-2 bg-red-100 text-red-600 rounded-full text-sm font-semibold mb-6 uppercase tracking-wider">Our Team</div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Meet the Team</h2>
+                    <p class="text-lg text-black max-w-3xl mx-auto font-bold">
+                        The Project Nivritti was started by two 17-year-olds who wished to address the issue of substance abuse amongst teenagers in India. Their aim is to reach out to schools and conduct drives for students aged 13 to 17 and educate them about the harms of abusing substances.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                        <div class="relative h-80 overflow-hidden">
+                            <img src="Images/Adi.png" 
+                                 alt="Aditya Gunjal" 
+                                 class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110 toggleable-img">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-600/80 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div class="flex gap-4">
+                                    <a href="https://www.linkedin.com" class="w-12 h-12 bg-white text-red-600 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                    <a href="https://www.twitter.com" class="w-12 h-12 bg-white text-red-600 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="https://www.envelopes.com" class="w-12 h-12 bg-white text-red-600 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-8 text-center">
+                            <p class="text-red-600 font-semibold text-base mb-2 uppercase tracking-wider">Project Director</p>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Aditya Gunjal</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                17-year-old passionate leader and orator with a deep sense of purpose, driven by the vision of creating meaningful social change.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                        <div class="relative h-80 overflow-hidden">
+                            <img src="Images/tanay.png" 
+                                 alt="Tanay Sharma" 
+                                 class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110 toggleable-img">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-600/80 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div class="flex gap-4">
+                                    <a href="#" class="w-12 h-12 bg-white text-red-600 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                    <a href="#" class="w-12 h-12 bg-white text-red-600 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="w-12 h-12 bg-white text-red-600 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-8 text-center">
+                            <p class="text-red-600 font-semibold text-base mb-2 uppercase tracking-wider">Head of Logistics</p>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Tanay Sharma</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                A multifaceted and dynamic marketing geek, photographer, and musician driven by compassion and empathy.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="max-w-3xl mx-auto px-8 text-center">
+                <div class="bg-gray-200 p-16 rounded-3xl shadow-lg">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Book a session with us!</h2>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        Allow us in our initiative by inviting us to your schools, colleges, or localities!
+                    </p>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info.projectnivritti@gmail.com&su=We%20want%20to%20book%20a%20session!" 
+                   target="_blank" 
+   class="btn-hover inline-flex items-center gap-2 px-12 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-xl shadow-xl text-lg hover:from-red-700 hover:to-red-800 transition-all duration-300">
+   <i class="fas fa-calendar-plus"></i>
+   Start Now
+</a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-100 py-16">
+            <div class="max-w-6xl mx-auto px-8">
+                <div class="grid md:grid-cols-2 gap-16 mb-8">
+                    <!-- Brand Section -->
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2">
+                            <img src="Images/logo.png.jpg" alt="Project Nivritti Logo" class="logo-img">
+                            <div>
+                                <div class="flex items-center gap-1 font-black text-xl">
+                                    <span class="text-gray-800">PROJECT</span>
+                                    <span class="text-primary">NIVRITTI</span>
+                                </div>
+                                <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">Breaking The Chain</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 font-medium">Pune</p>
+                    </div>
+                    
+                    <!-- Links Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Connect Column -->
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-4">Connect</h4>
+                            <div class="space-y-2">
+                                <a href="https://www.Instagram.com" class="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
+                                    <i class="fab fa-instagram"></i>
+                                    <span>Instagram</span>
+                                </a>
+                                <p class="text-sm text-gray-500 ml-6">@projectnivritti</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Column -->
+                        <div>
+    <h4 class="text-lg font-semibold text-gray-900 mb-4">Contact</h4>
+ <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info.projectnivritti@gmail.com&su=We%20want%20to%20book%20a%20session!" 
+   target="_blank" 
+   class="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
+    <i class="fas fa-envelope"></i>
+    <span>info.projectnivritti@gmail.com</span>
+</a>
+</div>
+
+                        
+                        
+                    </div>
+                </div>
+                
+                <!-- Copyright -->
+                <div class="text-center pt-8 border-t border-gray-300">
+                    <p class="text-gray-500 text-sm">&copy; 2025 by Project Nivritti. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Chat Widget -->
+        <div class="fixed bottom-8 right-8 z-50">
+            <button class="w-15 h-15 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full shadow-xl hover:scale-110 transition-transform duration-300 flex items-center justify-center p-4">
+                <i class="fas fa-comments text-xl"></i>
+            </button>
+        </div>
+    </div>
+
+  
+    <script src="src/main.js"></script>
+</body>
+</html>
