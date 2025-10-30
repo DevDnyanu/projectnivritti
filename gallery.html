@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image" href="Images/logo.png.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Project Nivritti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#e53e3e',
+                        'primary-dark': '#c53030',
+                        'primary-light': '#feb2b2',
+                        secondary: '#2d3748',
+                        accent: '#ed8936',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navigation scroll effect */
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Navigation link hover effect */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #e53e3e 0%, #ed8936 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Logo styling */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Mobile menu toggle */
+        .mobile-menu-open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hamburger-active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger-active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Gallery styles */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(229, 62, 62, 0.25);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(229, 62, 62, 0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            background: #e53e3e;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: #c53030;
+            transform: rotate(90deg);
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e53e3e;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c53030;
+        }
+
+        /* Session Header */
+        .session-header {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .session-date {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .session-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .session-location {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Online Session Header */
+        .online-session-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="font-poppins bg-gray-50 overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="navbar fixed top-0 left-0 right-0 z-50 py-4 bg-white/95 backdrop-blur-sm border-b border-gray-200 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-8 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="logo-container">
+                    <img src="Images/logo.png.jpg" alt="Project Nivritti Logo" class="logo-img">
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-1 font-black text-xl">
+                            <span class="text-gray-800">PROJECT</span>
+                            <span class="text-primary">NIVRITTI</span>
+                        </div>
+                        <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Breaking The Chain</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="nav-link text-gray-600 hover:text-primary font-medium text-sm transition-colors relative py-2">Home</a>
+                <a href="about.html" class="nav-link text-gray-600 hover:text-primary font-medium text-sm transition-colors relative py-2">About</a>
+                <a href="gallery.html" class="nav-link text-primary font-medium text-sm transition-colors relative py-2">Gallery</a>
+            </div>
+
+            <div class="hamburger md:hidden flex flex-col gap-1 cursor-pointer p-2" onclick="toggleMobileMenu()">
+                <span class="w-6 h-0.5 bg-gray-700 rounded transition-all duration-300"></span>
+                <span class="w-6 h-0.5 bg-gray-700 rounded transition-all duration-300"></span>
+                <span class="w-6 h-0.5 bg-gray-700 rounded transition-all duration-300"></span>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu md:hidden fixed top-full left-0 right-0 bg-white flex-col p-8 shadow-2xl transform -translate-y-full opacity-0 invisible transition-all duration-300">
+            <a href="index.html" class="block py-3 text-gray-600 hover:text-primary font-medium" onclick="toggleMobileMenu()">Home</a>
+            <a href="about.html" class="block py-3 text-gray-600 hover:text-primary font-medium" onclick="toggleMobileMenu()">About</a>
+            <a href="gallery.html" class="block py-3 text-primary font-medium" onclick="toggleMobileMenu()">Gallery</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden pt-32 pb-16" style="background: linear-gradient(135deg, rgba(229, 62, 62, 0.9) 0%, rgba(45, 55, 72, 0.9) 100%), url('Images/home.png.jpg'); background-size: cover; background-position: center;">
+        <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6">
+                Our Gallery
+            </h1>
+            <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                Moments captured from our journey to break the chain of substance abuse
+            </p>
+        </div>
+    </section>
+
+    <!-- Online Session Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Online Session Header -->
+            <div class="online-session-header">
+                <div class="session-date">9th June 2025</div>
+                <div class="session-location">Kshamata Foundation - Online Session</div>
+            </div>
+
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Online Sessions</h2>
+                
+            </div>
+
+            <!-- Main Banner -->
+            <div class="bg-gradient-to-r from-purple-600 to-purple-700 rounded-3xl overflow-hidden shadow-2xl mb-8">
+                <img src="Images/Banner1.jpg" alt="Project Nivritti Main Session" class="w-full h-auto object-cover">
+            </div>
+
+            <!-- Additional Banners Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl overflow-hidden shadow-xl">
+                    <img src="Images/Banner2.jpg" alt="Student Interaction Session" class="w-full h-64 object-cover">
+                </div>
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl overflow-hidden shadow-xl">
+                    <img src="Images/Banner3.jpg" alt="Expert Presentation Session" class="w-full h-64 object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-2 bg-red-100 text-red-600 rounded-full text-sm font-semibold mb-6 uppercase tracking-wider">
+                    Our Impact in Pictures
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Breaking the Chain Together</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Every session, every conversation, every life touched - here's a glimpse into our mission
+                </p>
+            </div>
+
+            <!-- Session 3 (First in descending order) -->
+            <div class="session-header">
+                <div class="session-date">30th September 2025</div>
+                <div class="session-location">MIT VGHS, Pune</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Session 3 Images -->
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT1.jpg')">
+                    <img src="Images/MIT1.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT2.jpg')">
+                    <img src="Images/MIT2.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT3.jpg')">
+                    <img src="Images/MIT3.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT4.jpg')">
+                    <img src="Images/MIT4.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT5.jpg')">
+                    <img src="Images/MIT5.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT6.JPG')">
+                    <img src="Images/MIT6.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT7.jpg')">
+                    <img src="Images/MIT7.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT8.jpg')">
+                    <img src="Images/MIT8.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT9.jpg')">
+                    <img src="Images/MIT9.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT10.jpg')">
+                    <img src="Images/MIT10.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT11.jpg')">
+                    <img src="Images/MIT11.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT12.jpg')">
+                    <img src="Images/MIT12.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT13.jpg')">
+                    <img src="Images/MIT13.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT14.jpg')">
+                    <img src="Images/MIT14.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT15.jpg')">
+                    <img src="Images/MIT15.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT16.jpg')">
+                    <img src="Images/MIT16.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT17.jpg')">
+                    <img src="Images/MIT17.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT18.jpg')">
+                    <img src="Images/MIT18.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT19.jpg')">
+                    <img src="Images/MIT19.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT20.JPG')">
+                    <img src="Images/MIT20.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT21.jpg')">
+                    <img src="Images/MIT21.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT22.jpg')">
+                    <img src="Images/MIT22.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT23.jpg')">
+                    <img src="Images/MIT23.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT24.jpg')">
+                    <img src="Images/MIT24.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT25.jpg')">
+                    <img src="Images/MIT25.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT26.jpg')">
+                    <img src="Images/MIT26.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT27.JPG')">
+                    <img src="Images/MIT27.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT28.jpg')">
+                    <img src="Images/MIT28.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT29.jpg')">
+                    <img src="Images/MIT29.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT30.jpg')">
+                    <img src="Images/MIT30.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT31.jpg')">
+                    <img src="Images/MIT31.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT32.jpg')">
+                    <img src="Images/MIT32.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT33.jpg')">
+                    <img src="Images/MIT33.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT34.JPG')">
+                    <img src="Images/MIT34.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT35.jpg')">
+                    <img src="Images/MIT35.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT36.jpg')">
+                    <img src="Images/MIT36.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT37.jpg')">
+                    <img src="Images/MIT37.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT38.jpg')">
+                    <img src="Images/MIT38.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT39.jpg')">
+                    <img src="Images/MIT39.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT40.jpg')">
+                    <img src="Images/MIT40.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT41.JPG')">
+                    <img src="Images/MIT41.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT24.jpg')">
+                    <img src="Images/MIT42.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT43.jpg')">
+                    <img src="Images/MIT43.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT44.jpg')">
+                    <img src="Images/MIT44.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT45.jpg')">
+                    <img src="Images/MIT45.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT46.jpg')">
+                    <img src="Images/MIT46.jpg" alt="Session 3 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+               
+            </div>
+
+            <!-- Session 2 (Second in descending order) -->
+            <div class="session-header">
+                <div class="session-date">9th September 2025</div>
+                <div class="session-location">MIT VGHS, Pune</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Session 2 Images -->
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M1.jpg')">
+                    <img src="Images/M1.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M2.jpg')">
+                    <img src="Images/M2.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M3.jpg')">
+                    <img src="Images/M3.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M4.jpg')">
+                    <img src="Images/M4.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M5.jpg')">
+                    <img src="Images/M5.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M6.jpg')">
+                    <img src="Images/M6.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M7.jpg')">
+                    <img src="Images/M7.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M8.jpg')">
+                    <img src="Images/M8.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M9.jpg')">
+                    <img src="Images/M9.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M10.jpg')">
+                    <img src="Images/M10.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M11.jpg')">
+                    <img src="Images/M11.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M12.jpg')">
+                    <img src="Images/M12.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M13.jpg')">
+                    <img src="Images/M13.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M14.jpg')">
+                    <img src="Images/M14.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/MIT15.jpg')">
+                    <img src="Images/M15.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M16.jpg')">
+                    <img src="Images/M16.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M17.jpg')">
+                    <img src="Images/M17.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M18.jpg')">
+                    <img src="Images/M18.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M19.jpg')">
+                    <img src="Images/M19.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/M20.jpg')">
+                    <img src="Images/M20.jpg" alt="Session 2 - MIT VGHS">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+            </div>
+
+            <!-- Session 1 (Last in descending order) -->
+            <div class="session-header">
+                <div class="session-date">8th April 2025</div>
+                <div class="session-location">EuroSchool, Pune</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Session 1 Images -->
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g1.jpg')">
+                    <img src="Images/g1.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g2.jpg')">
+                    <img src="Images/g2.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g3.jpg')">
+                    <img src="Images/g3.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g4.jpg')">
+                    <img src="Images/g4.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g5.jpg')">
+                    <img src="Images/g5.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g6.jpg')">
+                    <img src="Images/g6.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g7.jpg')">
+                    <img src="Images/g7.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g8.jpg')">
+                    <img src="Images/g8.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g9.jpg')">
+                    <img src="Images/g9.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g10.jpg')">
+                    <img src="Images/g10.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g11.jpg')">
+                    <img src="Images/g11.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g12.jpg')">
+                    <img src="Images/g12.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g13.jpg')">
+                    <img src="Images/g13.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g14.jpg')">
+                    <img src="Images/g14.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g15.jpg')">
+                    <img src="Images/g15.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                <div class="gallery-item h-80" onclick="openLightbox('Images/g16.jpg')">
+                    <img src="Images/g16.jpg" alt="Session 1 - EuroSchool">
+                    <div class="gallery-overlay"></div>
+                </div>
+
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <div class="lightbox-close" onclick="closeLightbox()">
+                <i class="fas fa-times"></i>
+            </div>
+            <img id="lightbox-img" src="" alt="Gallery Image">
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-gradient-to-br from-gray-900 to-black py-16 text-white">
+        <div class="max-w-6xl mx-auto px-8">
+            <!-- Main Footer Content -->
+            <div class="grid lg:grid-cols-3 gap-12 mb-12">
+                <!-- Brand Section -->
+                <div class="space-y-6">
+                    <div class="flex items-center gap-3">
+                        <img src="Images/logo.png.jpg" alt="Project Nivritti Logo" class="w-12 h-12 rounded-lg">
+                        <div>
+                            <div class="flex items-center gap-1 font-black text-2xl">
+                                <span class="text-white">PROJECT</span>
+                                <span class="text-red-500">NIVRITTI</span>
+                            </div>
+                            <p class="text-sm text-gray-400 font-medium uppercase tracking-wider mt-1">Breaking The Chain</p>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA Button -->
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info.projectnivritti@gmail.com&su=We%20want%20to%20book%20a%20session!"
+                       target="_blank"
+                       class="inline-flex items-center gap-3 px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-2xl transition-all duration-300 hover:scale-105">
+                        <i class="fas fa-calendar-plus text-lg"></i>
+                        <span class="text-lg">Start Now</span>
+                    </a>
+                </div>
+
+                <!-- Connect Section -->
+                <div class="space-y-6">
+                    <h4 class="text-2xl font-bold text-white mb-6 border-l-4 border-red-500 pl-4">Connect</h4>
+                    <div class="space-y-4">
+                        <!-- Instagram Link -->
+                        <a href="https://www.instagram.com/projectnivritti?igsh=b2w4dnh0NjMydXJq" 
+                           target="_blank"
+                           class="flex items-center gap-4 text-gray-300 hover:text-white transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fab fa-instagram text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-lg">Instagram</div>
+                                <div class="text-gray-400 text-sm">@projectnivritti</div>
+                            </div>
+                        </a>
+                        
+                        <!-- LinkedIn Link -->
+                        <a href="https://www.linkedin.com/company/project-nivritti/" 
+                           target="_blank"
+                           class="flex items-center gap-4 text-gray-300 hover:text-white transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-blue-700 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fab fa-linkedin-in text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-lg">LinkedIn</div>
+                                <div class="text-gray-400 text-sm">Project Nivritti</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="space-y-6">
+                    <h4 class="text-2xl font-bold text-white mb-6 border-l-4 border-red-500 pl-4">Contact</h4>
+                    <div class="space-y-4">
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info.projectnivritti@gmail.com&su=We%20want%20to%20book%20a%20session!"
+                           target="_blank"
+                           class="flex items-center gap-4 text-gray-300 hover:text-white transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-envelope text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-lg">Email Us</div>
+                                <div class="text-gray-400 text-sm">info.projectnivritti@gmail.com</div>
+                            </div>
+                        </a>
+                        
+                        <!-- Location -->
+                        <div class="flex items-center gap-4 text-gray-300 mt-6">
+                            <div class="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-red-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-lg">Location</div>
+                                <div class="text-gray-400 text-sm">Pune, India</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section -->
+            <div class="pt-8 border-t border-gray-800">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <!-- Copyright -->
+                    <div class="text-center md:text-left">
+                        <p class="text-gray-400 text-lg">
+                            &copy; 2025 by Project Nivritti. All rights reserved.
+                        </p>
+                    </div>
+                    
+                    <!-- Additional Branding -->
+                    <div class="text-center">
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-heart text-red-500"></i>
+                            <span class="text-sm">Breaking The Chain of Substance Abuse</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+
+            mobileMenu.classList.toggle('opacity-0');
+            mobileMenu.classList.toggle('invisible');
+            mobileMenu.classList.toggle('-translate-y-full');
+            mobileMenu.classList.toggle('translate-y-0');
+
+            hamburger.classList.toggle('hamburger-active');
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Lightbox functions
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = imageSrc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close lightbox on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
